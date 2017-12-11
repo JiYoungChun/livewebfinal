@@ -58,7 +58,7 @@ io.sockets.on('connection',
 			// Send it to all of the clients
 			// socket.broadcast.emit('chatmessage', data);
 			// socket.emit('chatmessage',data); //send to me
-			io.sockets.emit('message', data);// send to everyone
+			socket.broadcast.emit('message', data);// send to everyone
 		});
 		
 		socket.on('disconnect', function() {

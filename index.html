@@ -10,13 +10,16 @@
 </head>
 
 <body >
-	<video id="liveVideo" autoplay></video>
-    <img src="circle.png" id="circle">
-
+	
+    <div id= "topPart"></div>
     <div id = "chatDisplay" >
-        <div id= "myMessages">
+        <div id= "conversation">
         </div>
     </div>
+  
+    <div id = "bottomPart"></div>
+    <video id="liveVideo" autoplay></video>
+    <img src="greycircle.png" id="circle">
     <input type="text" id="message" name="message">
     <input type="submit" id="button" value="send" onclick="sendMessageToServer(document.getElementById('message').value);">
 

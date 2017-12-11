@@ -6,7 +6,7 @@ socket.on('connect', function() {
 
 var liveVideo; // live profile video near input
 var sendMessageToServer; //function to call when sending message
-var myMessages;//message list div
+var conversation;//message list div
 
 var mediaRecorder;
 
@@ -23,7 +23,7 @@ var initWebRTC = function() {
     // The video element on the page to display the webcam
     liveVideo = document.getElementById('liveVideo');
 
-    myMessages = document.getElementById("myMessages");
+    conversation = document.getElementById('conversation');
 
     //if you start typing in the input, start the recording process
     $("#message").keypress(function() {
@@ -31,6 +31,18 @@ var initWebRTC = function() {
             console.log("START RECORD");
             mediaRecorder.start();
             isTyping = true;
+        }
+    });
+
+    //press enter to send message. cannot send if input field is empty
+    $('#message').bind("enterKey",function(e){
+           sendMessageToServer(document.getElementById('message').value);
+    });
+
+    $('#message').keyup(function(e){
+        if(e.keyCode == 13 && document.getElementById('message').value != "")
+        {
+            $(this).trigger("enterKey");
         }
     });
 
@@ -57,13 +69,20 @@ var initWebRTC = function() {
                 //get message content from input field
                 var message = document.getElementById('message').value;
 
+                var localObj = {
+                    video: blob,
+                    content: message,
+                    isLocal: true
+                }
+                makeMsgBox(localObj);
+
                 var objtosend = {
                     video: blob,
-                    content: message
+                    content: message,
+                    isLocal: false
                 }
-                // makeMsgBox(objtosend);
 
-                socket.emit('message', objtosend);
+                socket.emit ('message', objtosend);
 
                 //reset everything
                 //and reset the input field to an empty string
@@ -94,7 +113,7 @@ var initWebRTC = function() {
 //data: dataUrl, msgData   ->  javascript object
 
 function makeMsgBox(data) {
-
+   
     //make a msgbox div 
     var div = document.createElement("div");
     div.classList.add("messageContainer");
@@ -127,12 +146,26 @@ function makeMsgBox(data) {
     profileCircle.src = "circle.png";
 
     div.style.top = ypos + "%";
-    div.appendChild(para);
     div.appendChild(vid);
     div.appendChild(profileCircle);
+    div.appendChild(para);
+   
 
-    myMessages.appendChild(div);
-    document.getElementById("chatDisplay").appendChild(myMessages);
+console.log("conver"+ conversation);
+    conversation.appendChild(div);
+    document.getElementById("chatDisplay").appendChild(conversation);
+
+ //local stuff. put on right side
+    if(data.isLocal)
+    {
+        para.style.right= 3 + "px";
+    }
+    else //everyone else, do on left side
+    {
+        para.style.left= 3 + "px";
+    }
+
+
 
     vid.play();
 
@@ -141,8 +174,9 @@ function makeMsgBox(data) {
     //TODO: need to scroll to bottom of message container everytime there's new message
     //TODO: pressing enter to send message
     //TODO: more styling to make it pretty
-    ypos += 20;
-
+    ypos += 17;
+    var scrollDiv = document.getElementById("chatDisplay");
+    scrollDiv.scrollTop = scrollDiv.scrollHeight;
 }
 
 //receive message data from server

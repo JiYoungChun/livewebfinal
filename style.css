@@ -7,7 +7,7 @@
       width: 90px;
       height: 90px;
       left: 1%;
-      bottom: 2%;
+      bottom: 0.7%;
       /*z-index:300000;*/
   }
   #circle {
@@ -16,7 +16,7 @@
       width: 93px;
       height: 93px;
       left: 1%;
-      bottom: 2%;
+      bottom: 0.7%;
   }
 
   html,
@@ -32,6 +32,7 @@
       /* take full browser width */
       
       height: 100%;
+      
       /* take full browser height*/
       
       min-height: 100%;
@@ -40,31 +41,34 @@
   
  #chatDisplay {
       overflow:scroll; 
-      top: 5%;
+      top: 6%;
       left: 2%;
-      width: 100%;
-      height: 80%;
+      width: 96%;
+      height: 79%;
       position: absolute;
       margin: auto;
 
  }
 
-  #myMessages {
+
+
+  #conversation {
       /*font-family: 'Amatic SC', cursive;*/
       /*text-align: center;*/
       font-family: Helvetica;
       font-weight: lighter;
    /*   top: 7%;*/    
-      width: 60%;
+      width: 100%;
       height: 100%;
-      left: 40%;
+      /*left: 38%;*/
       position: absolute;
       margin: auto;
   }
 
+
   .messageContainer{
     width : 100%;
-    height : 20%;
+    height : 15%;
     position : absolute;
     margin: auto;
 
@@ -72,9 +76,9 @@
 
   .messageText {
     font-size: 15px;
-    left: 50%;
-    width: 50%; 
-    top: 50%;
+  /*  right:2%;
+*/    width: 25%; 
+    top: 40%;
     position: absolute;
     padding: 4px;
     border-radius: 5px;
@@ -86,15 +90,16 @@
   }
 
   .messageUserProfile {
-    left: 0%;
-    width: 90px;
-    height: 90px;
+    left: 39%;
+    width: 88.5px;
+    height: 88.5px;
     position: absolute;
     margin: auto;
   }
 
   .messageProfileCircle {
-    left: 0%;
+    left: 38.7%;
+    top:-1.5%;
     width: 93px; 
     height: 93px; 
     position: absolute;
@@ -102,18 +107,36 @@
 
   }
 
+  #topPart {
+    height: 5%;
+    width: 100%;
+    top: 0px;
+    position: absolute;
+    margin: auto;
+   background-color:#e7e7e7;
+}
+  #bottomPart{
+
+    height: 16%;
+    width: 100%;
+    bottom: 0px;
+    position: absolute;
+    margin: auto;
+   background-color:#e7e7e7;
+  }
+
   #message {
       /*font-family: *//*'Amatic SC', cursive;*/
       font-family: Helvetica;
       font-weight: lighter;
       font-size: 13px;
-      /*top: 80%;*/
-      
-      height: 5%;
-      width: 60%;
-      left: 30%;
-      bottom: 5.5%;
-      background-color:#e7e7e7;
+      border-style: none;
+      border-radius: 5px;
+      height: 7%;
+      width: 65%;
+      right: 10%;
+      bottom: 4.5%;
+      background-color: white;
       position: absolute;
       margin: auto;
   }
@@ -123,14 +146,14 @@
       font-size: 13px;
       /*top: 80.2%;*/
       
-      height: 5.2%;
-      right: 3%;
-      bottom: 5.5%;
+      height: 7.5%;
+      right: 4.5%;
+      bottom: 4.25%;
       position: absolute;
       margin: auto;
-      background-color:#555555;
-      border: 3px solid grey;
-      border-radius: 4px;
+      background-color:grey;
+      border: 3.2px solid grey;
+      border-radius: 5px;
       color: white;
       padding: 4px 20px;
       text-align: center;
