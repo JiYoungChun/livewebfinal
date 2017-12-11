@@ -18,7 +18,10 @@ var thecanvas;
 var thecontext;
 var video;
 var sendMessageToServer;
+var myMessages;
 var ypos = 0;
+
+var isTyping = false;
 
 var initWebRTC = function() {
     // These help with cross-browser functionality
@@ -43,7 +46,18 @@ var initWebRTC = function() {
     console.log(document);
     thecanvas = document.getElementById('thecanvas');
     thecontext = thecanvas.getContext('2d');
+    myMessages = document.getElementById("myMessages");
 
+    mediaRecorderInit();
+
+    $("#message").keypress(function(){
+        if(!isTyping)
+        {
+            console.log("START RECORD");
+            mediaRecorder.start();
+            isTyping = true;
+        }
+    });
 
 };
 
@@ -55,51 +69,21 @@ function makeMsgBox (data){
 
 
 //make a msgbox div 
-var myMessages = document.getElementById("myMessages");
-var div = document.createElement("div"); 
+var div = document.createElement("div");
+div.classList.add("messageContainer");
 var para = document.createElement("p");
+para.classList.add("messageText");
 var img = document.createElement("img");
+img.classList.add("messageUserProfile");
 var profileCircle = document.createElement("img");
+profileCircle.classList.add("messageProfileCircle");
 var node = document.createTextNode(data.content);
 
 para.appendChild(node);
-para.setAttribute("style", "font-size: " + 20 + "px");
-para.style.left = 50 + "%";
-para.style.width = 50+ "%"; 
-para.style.top = 50+ "%";
-para.style.position = "absolute";
-para.style.padding= 4+"px";
-para.style.borderRadius= 2+"px";
-// para.style.padding= 4+"px" +20+"px";
-para.style.margin = "auto";
-para.style.background = "#e7e7e7"; 
-
-
 img.src= data.image; 
-img.style.left = 0 + "%";
-img.style.position = "absolute";
-img.style.margin = "auto";
-
 profileCircle.src = "circle.png";
-profileCircle.style.left = 0 + "%";
-profileCircle.style.width = 125 + "px"; 
-profileCircle.style.height = 125 + "px"; 
-profileCircle.style.position = "absolute";
-profileCircle.style.margin = "auto";
 
-
-// div.style.width = "100px"; 
-// div.style.height = "100px"; 
-div.style.width = 100 + "%"
-div.style.height = 20 + "%"
-
-// div.style.color = "swhite"; 
-div.style.top = ypos - 20 + "%";
-div.style.position = "absolute";
-div.style.margin = "auto";
-
-
-// div.innerHTML = para; 
+div.style.top = ypos + "%";
 div.appendChild(para);
 div.appendChild(img);
 div.appendChild(profileCircle);
@@ -107,7 +91,6 @@ div.appendChild(profileCircle);
 
 myMessages.appendChild(div); 
 document.getElementById("chatDisplay").appendChild(myMessages);
-
 
 }
 
@@ -147,6 +130,9 @@ sendMessageToServer = function(message) {
     document.getElementById('message').value = "  ";
     ypos += 20;
     console.log("ypos : " + ypos);
+
+    isTyping = false;
+    mediaRecorder.stop();
 
     // document.getElementById('imagefile').src= " ";
 };

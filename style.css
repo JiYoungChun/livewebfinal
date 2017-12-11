@@ -1,13 +1,15 @@
   #thecanvas {
-      visibility: hidden;
+      /*visibility: hidden;*/
+       width: 90px; 
+       height: 90px;
   }
   #thevideo {
       /*visibility: hidden;*/
-      
       position: absolute;
       margin: auto;
       /*  top: 75%;*/
-      
+      width: 90px;
+      height: 90px;
       left: 1%;
       bottom: 2%;
       /*z-index:300000;*/
@@ -15,8 +17,8 @@
   #circle {
       position: absolute;
       margin: auto;
-      /*top: 75%;*/
-      
+      width: 93px;
+      height: 93px;
       left: 1%;
       bottom: 2%;
   }
@@ -32,7 +34,7 @@
   */
   html,
   body {
-      font-size: 40px;
+    
       margin: 0;
       /* remove default margin */
       
@@ -61,39 +63,77 @@
  }
 
   #myMessages {
-      font-family: 'Amatic SC', cursive;
-      text-align: center;
-      /*    'Amatic SC', cursive;*/
-      /*font-size: 50px;*/
-      
-   /*   top: 7%;*/
-      /*width: 1000px;*/
-      
+      /*font-family: 'Amatic SC', cursive;*/
+      /*text-align: center;*/
+      font-family: Helvetica;
+      font-weight: lighter;
+   /*   top: 7%;*/    
       width: 60%;
       height: 100%;
-      
       left: 40%;
       position: absolute;
       margin: auto;
   }
 
+  .messageContainer{
+    width : 100%;
+    height : 20%;
+    position : absolute;
+    margin: auto;
+
+  }
+
+  .messageText {
+    font-size: 15px;
+    left: 50%;
+    width: 50%; 
+    top: 50%;
+    position: absolute;
+    padding: 4px;
+    border-radius: 5px;
+    padding: 4px 20px;
+    margin: auto;
+    background: #e7e7e7; 
+
+
+  }
+
+  .messageUserProfile {
+    left: 0%;
+    width: 90px;
+    height: 90px;
+    position: absolute;
+    margin: auto;
+  }
+
+  .messageProfileCircle {
+    left: 0%;
+    width: 93px; 
+    height: 93px; 
+    position: absolute;
+    margin: auto;
+
+  }
 
   #message {
-      font-family: 'Amatic SC', cursive;
-      font-size: 23px;
+      /*font-family: *//*'Amatic SC', cursive;*/
+      font-family: Helvetica;
+      font-weight: lighter;
+      font-size: 13px;
       /*top: 80%;*/
       
       height: 6%;
       width: 60%;
       left: 30%;
       bottom: 7%;
-      background-color: #e7e7e7;
+      background-color: white;
       position: absolute;
       margin: auto;
   }
   #button {
-      font-family: 'Amatic SC', cursive;
-      font-size: 20px;
+      font-family: Helvetica;
+      font-weight: lighter;
+      font-size: 13px;
       /*top: 80.2%;*/
       
       height: 6.2%;
@@ -101,7 +141,7 @@
       bottom: 7%;
       position: absolute;
       margin: auto;
-      background-color: black;
+      background-color: #e7e7e7;
       border: 3px solid #555555;
       border-radius: 4px;
       color: white;

@@ -3,16 +3,17 @@
 <head>
     <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
     <script src="/socket.io/socket.io.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Amatic+SC|Gloria+Hallelujah|Libre+Barcode+128+Text|Sacramento" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <script src="muah.js"> </script>
+    <script src="mediarecorder.js"> </script>
 </head>
 
 <body >
-	<video id="thevideo" width="120" height="120" autoplay></video>
-    <img src="circle.png" width="125" height="125" id="circle">
-
-	<canvas id="thecanvas" width="120" height="120"></canvas>
+	<video id="thevideo" autoplay></video>
+    <img src="circle.png" id="circle">
+	<canvas id="thecanvas"></canvas>
 	
  <!--    <div id="messages">
 
@@ -22,12 +23,8 @@
     </div> -->
 
     <div id = "chatDisplay" >
-
         <div id= "myMessages">
-            
         </div>
-        
-
     </div>
     <input type="text" id="message" name="message">
     <!-- <input type="text" onkeypress="init()"> -->
