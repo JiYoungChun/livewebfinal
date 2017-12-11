@@ -74,6 +74,7 @@ para.style.borderRadius= 2+"px";
 para.style.margin = "auto";
 para.style.background = "#e7e7e7"; 
 
+
 img.src= data.image; 
 img.style.left = 0 + "%";
 img.style.position = "absolute";
