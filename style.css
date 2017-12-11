@@ -1,0 +1,112 @@
+  #thecanvas {
+      visibility: hidden;
+  }
+  #thevideo {
+      /*visibility: hidden;*/
+      
+      position: absolute;
+      margin: auto;
+      /*  top: 75%;*/
+      
+      left: 1%;
+      bottom: 2%;
+      /*z-index:300000;*/
+  }
+  #circle {
+      position: absolute;
+      margin: auto;
+      /*top: 75%;*/
+      
+      left: 1%;
+      bottom: 2%;
+  }
+/*  #imagefile {
+      position: absolute;
+      margin: auto;
+      background-color: black;
+  }
+  #profileCircle {
+      position: absolute;
+      margin: auto;
+  }
+  */
+  html,
+  body {
+      font-size: 40px;
+      margin: 0;
+      /* remove default margin */
+      
+      padding: 0;
+      /* remove default padding */
+      
+      width: 100%;
+      /* take full browser width */
+      
+      height: 100%;
+      /* take full browser height*/
+      
+      min-height: 100%;
+  }
+
+  
+ #chatDisplay {
+      overflow:scroll; 
+      top: 5%;
+      left: 2%;
+      width: 100%;
+      height: 80%;
+      position: absolute;
+      margin: auto;
+
+ }
+
+  #myMessages {
+      font-family: 'Amatic SC', cursive;
+      text-align: center;
+      /*    'Amatic SC', cursive;*/
+      /*font-size: 50px;*/
+      
+   /*   top: 7%;*/
+      /*width: 1000px;*/
+      
+      width: 60%;
+      height: 100%;
+      
+      left: 40%;
+      position: absolute;
+      margin: auto;
+  }
+
+
+  #message {
+      font-family: 'Amatic SC', cursive;
+      font-size: 23px;
+      /*top: 80%;*/
+      
+      height: 6%;
+      width: 60%;
+      left: 30%;
+      bottom: 7%;
+      background-color: #e7e7e7;
+      position: absolute;
+      margin: auto;
+  }
+  #button {
+      font-family: 'Amatic SC', cursive;
+      font-size: 20px;
+      /*top: 80.2%;*/
+      
+      height: 6.2%;
+      right: 3%;
+      bottom: 7%;
+      position: absolute;
+      margin: auto;
+      background-color: black;
+      border: 3px solid #555555;
+      border-radius: 4px;
+      color: white;
+      padding: 4px 20px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+  }
