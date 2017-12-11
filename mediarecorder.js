@@ -17,20 +17,21 @@ function mediaRecorderInit(){
              mediaRecorder.onstop = function(e) {
                  console.log("stop");
 
-                 var video = document.createElement('video');
-                 video.classList.add("messageUserProfile");
-                 video.loop = true;
-                 video.controls = false;
+                 var profileVideo = document.createElement('video');
+                 profileVideo.classList.add("messageUserProfile");
+                 profileVideo.loop = true;
+                 profileVideo.controls = false;
                  var blob = new Blob(chunks, {
                      'type': 'video/webm'
                  });
                  var videoURL = window.URL.createObjectURL(blob);
-                 video.src = videoURL;
+                 profileVideo.src = videoURL;
 
-                 document.body.appendChild(video);
+                 // document.getElementByClass("messageContainer").appendChild(profileVideo);
 
-				 video.autoplay = true;
-				 video.load();
+				 profileVideo.autoplay = true;
+				 profileVideo.load();
+
              };
 
              mediaRecorder.ondataavailable = function(e) {

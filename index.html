@@ -7,27 +7,17 @@
     <link href="https://fonts.googleapis.com/css?family=Amatic+SC|Gloria+Hallelujah|Libre+Barcode+128+Text|Sacramento" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <script src="muah.js"> </script>
-    <script src="mediarecorder.js"> </script>
 </head>
 
 <body >
-	<video id="thevideo" autoplay></video>
+	<video id="liveVideo" autoplay></video>
     <img src="circle.png" id="circle">
-	<canvas id="thecanvas"></canvas>
-	
- <!--    <div id="messages">
-
-        <br />
-        <img src="" width="120" height="100" id="imagefile">
-        <img src="circle.png" width="117" height="117" id="profileCircle">
-    </div> -->
 
     <div id = "chatDisplay" >
         <div id= "myMessages">
         </div>
     </div>
     <input type="text" id="message" name="message">
-    <!-- <input type="text" onkeypress="init()"> -->
     <input type="submit" id="button" value="send" onclick="sendMessageToServer(document.getElementById('message').value);">
 
 </body>
