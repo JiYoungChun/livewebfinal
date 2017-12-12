@@ -53,6 +53,7 @@ var initWebRTC = function() {
             audio: false
         }, function(stream) { //the live stream
             var chunks = [];
+            var superChunks = [];
 
             //get live stream and display for the bottom live video
             liveVideo.src = window.URL.createObjectURL(stream) || stream;
@@ -66,6 +67,9 @@ var initWebRTC = function() {
                     'type': 'video/webm'
                 });
                 
+                var superBlob = new Blob(superChunks, {
+                    'type': 'video/webm'
+                });
                 //get message content from input field
                 var message = document.getElementById('message').value;
 
@@ -79,7 +83,8 @@ var initWebRTC = function() {
                 var objtosend = {
                     video: blob,
                     content: message,
-                    isLocal: false
+                    isLocal: false,
+                    preview: superBlob
                 }
 
                 socket.emit ('message', objtosend);
@@ -92,6 +97,8 @@ var initWebRTC = function() {
                 isTyping = false;
 
                 //reset chunks so it doesn't keep previous video data
+
+
                 chunks = [];
             };
 
@@ -99,6 +106,9 @@ var initWebRTC = function() {
             mediaRecorder.ondataavailable = function(e) {
                 console.log("data");
                 chunks.push(e.data);
+                superChunks.push(e.data);
+
+                console.log("chuncks: " + chunks);
             };
 
         }, function(err) {
@@ -123,25 +133,39 @@ function makeMsgBox(data) {
     vid.classList.add("messageUserProfile");
     var profileCircle = document.createElement("img");
     profileCircle.classList.add("messageProfileCircle");
+    var previewVid = document.getElementById("previewVideo")
     var node = document.createTextNode(data.content);
     para.appendChild(node);
+    
+
+
 
     vid.onpause = function() { //weird bug. all videos pause when loading new video
         vid.play();
     }
     //set settings for video
     vid.loop = true;
+    previewVid.loop = true;
     vid.controls = false;
+    previewVid.controls = false;
+
 
     //need to convert arraybuffer into BLOB
     var newBlob = new Blob([data.video], {
             'type': 'video/webm'
         });
 
+    var newPrevewBlob = new Blob([data.preview],{
+            'type': 'video/webm'
+    });
+
     //get videourl from blob
     var videoURL = window.URL.createObjectURL(newBlob);
+    var previewVideoURL = window.URL.createObjectURL(newPrevewBlob);
     vid.src = videoURL;
+    previewVid.src = previewVideoURL;
     vid.autoplay = true;
+    previewVid.autoplay = true; 
 
     profileCircle.src = "circle.png";
 
@@ -168,7 +192,7 @@ console.log("conver"+ conversation);
 
 
     vid.play();
-
+    previewVid.play();
     //push text down
     //TODO: shift messages from other people to the left
     //TODO: need to scroll to bottom of message container everytime there's new message

@@ -8,7 +8,7 @@
       height: 90px;
       left: 1%;
       bottom: 0.7%;
-      /*z-index:300000;*/
+      
   }
   #circle {
       position: absolute;
@@ -141,6 +141,7 @@
       margin: auto;
   }
   #button {
+      visibility: hidden;
       font-family: Helvetica;
       font-weight: lighter;
       font-size: 13px;
@@ -160,3 +161,16 @@
       text-decoration: none;
       display: inline-block;
   }
+
+    #previewVideo { 
+
+      height: 7.5%;
+      right: 1%;
+      bottom: 4.25%;
+      position: absolute;
+      margin: auto;
+      z-index: 300000;
+
+
+
+    }
