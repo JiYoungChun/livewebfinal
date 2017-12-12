@@ -13,16 +13,29 @@
 <body >
 	
     <div id= "topPart"></div>
+
+    
     <div id = "chatDisplay" >
         <div id= "conversation">
         </div>
     </div>
+
+    <div id = "bigPreview">
+        <video id = "bigPreviewVideo" autoplay ></video>
+        <img src="greycircle.png" id="circleBig">
+        
+        <p id = "previewText"> </p>
+    </div>
   
     <div id = "bottomPart">
             <video id ="liveVideo" autoplay></video>
-            <video id = "previewVideo" autoplay ></video>
+            <div id = "preview">
+                <video id = "previewVideo" autoplay ></video>
+                 <img src="greycircle.png" id="circle2">
+            </div>
+            
             <img src="greycircle.png" id="circle">
-            <img src="greycircle.png" id="circle2">
+            
             <input type="text" id="message" name="message">
             <input type="submit" id="button" value="send" onclick="sendMessageToServer(document.getElementById('message').value);">
 

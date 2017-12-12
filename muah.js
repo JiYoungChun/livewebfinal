@@ -6,6 +6,10 @@ socket.on('connect', function() {
 
 var liveVideo; // live profile video near input
 var previewVid;
+
+var bigPreviewVid;
+var previewText;
+
 var sendMessageToServer; //function to call when sending message
 var conversation;//message list div
 
@@ -18,6 +22,7 @@ var isTyping = false;
 var firstTime = true;
 
 var previewVideoArray = [];
+var previewTextArray = [];
 var previewIndex = 0;
 
 var initWebRTC = function() {
@@ -38,6 +43,12 @@ var initWebRTC = function() {
     liveVideo = document.getElementById('liveVideo');
     conversation = document.getElementById('conversation');
     previewVid = document.getElementById('previewVideo');
+    bigPreviewVid = document.getElementById('bigPreviewVideo');
+    previewText = document.getElementById('previewText');
+
+    bigPreviewVid.controls = false;
+    bigPreviewVid.muted = true;
+    bigPreviewVid.autoplay = true;
 
     previewVid.controls = false;
     previewVid.muted = true;
@@ -47,6 +58,20 @@ var initWebRTC = function() {
         previewVid.src= previewVideoArray[previewIndex];
         previewVid.load();
         previewVid.play();
+
+        console.log(previewTextArray[previewIndex]);
+        previewIndex++;
+        if(previewIndex>=previewVideoArray.length){
+            previewIndex=0;
+        }
+    }
+
+    bigPreviewVid.onended = function(){
+        bigPreviewVid.src= previewVideoArray[previewIndex];
+        bigPreviewVid.load();
+        bigPreviewVid.play();
+
+        previewText.innerHTML = previewTextArray[previewIndex];
         previewIndex++;
         if(previewIndex>=previewVideoArray.length){
             previewIndex=0;
@@ -142,8 +167,7 @@ var initWebRTC = function() {
 //data: dataUrl, msgData   ->  javascript object
 
 function makeMsgBox(data) {
-    console.log(data.isLocal);
-   
+    previewTextArray.push(data.content);
     //make a msgbox div 
     var div = document.createElement("div");
     div.classList.add("messageContainer");
@@ -237,7 +261,9 @@ socket.on('chunk', function(data){
     var previewVideoURL = window.URL.createObjectURL(blob);
     previewVideoArray.push(previewVideoURL);
     previewVid.src = previewVideoArray[previewIndex];
+    bigPreviewVid.src = previewVideoArray[previewIndex];
     previewVid.play();  
+    previewVideoArray.play();
 });
 
 //on message deliver to server on button press
