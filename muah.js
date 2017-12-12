@@ -5,29 +5,58 @@ socket.on('connect', function() {
 });
 
 var liveVideo; // live profile video near input
+var previewVid;
 var sendMessageToServer; //function to call when sending message
 var conversation;//message list div
 
 var mediaRecorder;
+// var mediaRecorderPreview;
 
 var ypos = 0; 
 var isTyping = false;
 
+var firstTime = true;
 
+var previewVideoArray = [];
+var previewIndex = 0;
 
 var initWebRTC = function() {
     // These help with cross-browser functionality
     window.URL = window.URL || window.webkitURL || window.mozURL || window.msURL;
     navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
 
+     $(document).ready(function() {
+     document.ontouchmove = function(e){
+          e.preventDefault();
+          }
+    });
+     document.getElementById('message').onfocus = function () {
+        window.scrollTo(0, 0);
+        document.body.scrollTop = 0;
+    }
     // The video element on the page to display the webcam
     liveVideo = document.getElementById('liveVideo');
-
     conversation = document.getElementById('conversation');
+    previewVid = document.getElementById('previewVideo');
 
+    previewVid.controls = false;
+    previewVid.muted = true;
+    previewVid.autoplay = true;
+
+    previewVid.onended = function(){
+        previewVid.src= previewVideoArray[previewIndex];
+        previewVid.load();
+        previewVid.play();
+        previewIndex++;
+        if(previewIndex>=previewVideoArray.length){
+            previewIndex=0;
+        }
+    }
+    
     //if you start typing in the input, start the recording process
-    $("#message").keypress(function() {
+    $("#message").keyup(function() {
         if (!isTyping) {
+            console.log(mediaRecorder.state);
             console.log("START RECORD");
             mediaRecorder.start();
             isTyping = true;
@@ -58,7 +87,6 @@ var initWebRTC = function() {
             liveVideo.src = window.URL.createObjectURL(stream) || stream;
             liveVideo.play();
             mediaRecorder = new MediaRecorder(stream);
-
             //when stopping mediarecorder while it's already recording
             //save the data as a blob and send it to server as a bufferarray
             mediaRecorder.onstop = function(e) {
@@ -92,16 +120,14 @@ var initWebRTC = function() {
                 isTyping = false;
 
                 //reset chunks so it doesn't keep previous video data
-
-
                 chunks = [];
+                console.log(mediaRecorder.state);
             };
 
-            //i don't know. it is part of the video recording process
             mediaRecorder.ondataavailable = function(e) {
                 console.log("data");
                 chunks.push(e.data);
-                socket.emit ('chunks', e.data);
+                socket.emit("chunk", e.data);
             };
 
         }, function(err) {
@@ -116,6 +142,7 @@ var initWebRTC = function() {
 //data: dataUrl, msgData   ->  javascript object
 
 function makeMsgBox(data) {
+    console.log(data.isLocal);
    
     //make a msgbox div 
     var div = document.createElement("div");
@@ -123,10 +150,11 @@ function makeMsgBox(data) {
 
 
     var profileDiv = document.createElement("div");
-
+    profileDiv.classList.add("profileContainer");
 
     var para = document.createElement("p");
     para.classList.add("messageText");
+
     var vid = document.createElement("video");
     vid.classList.add("messageUserProfile");
     var profileCircle = document.createElement("img");
@@ -135,39 +163,37 @@ function makeMsgBox(data) {
     para.appendChild(node);
     
 
-
-
     vid.onpause = function() { //weird bug. all videos pause when loading new video
         vid.play();
     }
     //set settings for video
     vid.loop = true;
+    vid.autoplay = true;
+    vid.muted = true;
     vid.controls = false;
 
-
-
-
+    var newBlob = data.video;
     //need to convert arraybuffer into BLOB
-    var newBlob = new Blob([data.video], {
+    if(!data.isLocal)
+    {
+        newBlob = new Blob([data.video], {
             'type': 'video/webm'
         });
+    }
 
-    var newPrevewBlob = new Blob([data.preview],{
-            'type': 'video/webm'
-    });
 
     //get videourl from blob
     var videoURL = window.URL.createObjectURL(newBlob);
+    console.log(videoURL);
     vid.src = videoURL;
-    vid.autoplay = true;
-
-
 
     profileCircle.src = "circle.png";
 
     div.style.top = ypos + "%";
-    div.appendChild(vid);
-    div.appendChild(profileCircle);
+
+    profileDiv.appendChild(vid);
+    profileDiv.appendChild(profileCircle);
+    div.appendChild(profileDiv)
     div.appendChild(para);
    
     conversation.appendChild(div);
@@ -201,20 +227,17 @@ socket.on('message', function(data) {
     makeMsgBox(data);
 });
 
-socket.on('chunks', function(data){
-    console.log("received chunks");
-    console.log(data);
-    var previewVid = document.getElementById("previewVideo")
-    var bigBlob = new Blob(data, {
+socket.on('chunk', function(data){
+
+    console.log("received chunk");
+     var blob = new Blob([data], {
                     'type': 'video/webm'
                 });
 
-    var previewVideoURL = window.URL.createObjectURL(bigBlob);
-    previewVid.src = previewVideoURL;
-    previewVid.autoplay = true; 
-    previewVid.loop = true;
-    previewVid.controls = false;
-    previewVid.play();            
+    var previewVideoURL = window.URL.createObjectURL(blob);
+    previewVideoArray.push(previewVideoURL);
+    previewVid.src = previewVideoArray[previewIndex];
+    previewVid.play();  
 });
 
 //on message deliver to server on button press

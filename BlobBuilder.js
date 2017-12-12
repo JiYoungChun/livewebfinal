@@ -9,7 +9,8 @@ MyBlobBuilder.prototype.append = function(part) {
 
 MyBlobBuilder.prototype.getBlob = function() {
   if (!this.blob) {
-    this.blob = new Blob(this.parts, { type: 'type': 'video/webm' });
+    this.blob = new Blob(this.parts, 
+    	{  'type': 'video/webm' });
   }
   return this.blob;
 };

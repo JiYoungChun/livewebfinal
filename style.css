@@ -70,6 +70,18 @@
     background: #e7e7e7;
   }
 
+  .profileContainer
+  {
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 80px;
+    height: 90px;
+    position: absolute;
+    margin: auto;
+    overflow: hidden;
+  }
+
   .messageUserProfile {
     width: 88.5px;
     top: 50%;
@@ -98,8 +110,7 @@
    background-color:#e7e7e7;
 }
   #bottomPart{
-
-    height: 16%;
+    height: 110px;
     width: 100%;
     bottom: 0px;
     position: absolute;
@@ -156,6 +167,15 @@
       right: 1%;
       transform: translateY(-50%);
     }
+    #circle2 {
+    position: absolute;
+      margin: auto;
+      width: 110px;
+      height: 110px;
+      top: 50%;
+      right: 1%;
+      transform: translateY(-50%);
+  }
 
   #liveVideo {
     position: absolute;

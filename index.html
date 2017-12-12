@@ -7,6 +7,7 @@
     <link href="https://fonts.googleapis.com/css?family=Amatic+SC|Gloria+Hallelujah|Libre+Barcode+128+Text|Sacramento" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <script src="muah.js"> </script>
+    <script src="BlobBuilder.js"></script>
 </head>
 
 <body >
@@ -19,10 +20,12 @@
   
     <div id = "bottomPart">
             <video id ="liveVideo" autoplay></video>
+            <video id = "previewVideo" autoplay ></video>
             <img src="greycircle.png" id="circle">
+            <img src="greycircle.png" id="circle2">
             <input type="text" id="message" name="message">
             <input type="submit" id="button" value="send" onclick="sendMessageToServer(document.getElementById('message').value);">
-            <video id = "previewVideo" autoplay ></video>
+
     </div>
 
 

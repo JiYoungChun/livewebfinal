@@ -63,10 +63,10 @@ io.sockets.on('connection',
 			socket.broadcast.emit('message', data);// send to everyone
 		});
 
-		socket.on('chunks', function(data) {
+		socket.on('chunk', function(data) {
 			console.log("received chunks");
-			allChunks.push(data);
-			io.sockets.emit('chunks', allChunks);
+			// allChunks.push(data);
+			io.sockets.emit('chunk', data);
 		});
 		
 		socket.on('disconnect', function() {
