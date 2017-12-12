@@ -11,36 +11,48 @@
 </head>
 
 <body >
+
+    <div id="screen1">
+        <div>
+        <video id ="frontLiveVideo" autoplay></video>
+        <img src="circle.png" id="frontCircle">
+        <input id="yourName"  placeholder= "your name" type="text"name="text">
+        <input type="submit" id = "firstButton" value="Enter" onclick="changeScreen();">
+      </div>
+
+    </div>
 	
-    <div id= "topPart"></div>
+    <div id= "screen2">
+        <div id= "topPart"></div>
 
-    
-    <div id = "chatDisplay" >
-        <div id= "conversation">
-        </div>
-    </div>
-
-    <div id = "bigPreview">
-        <video id = "bigPreviewVideo" autoplay ></video>
-        <img src="greycircle.png" id="circleBig">
         
-        <p id = "previewText"> </p>
-    </div>
-  
-    <div id = "bottomPart">
-            <video id ="liveVideo" autoplay></video>
-            <div id = "preview">
-                <video id = "previewVideo" autoplay ></video>
-                 <img src="greycircle.png" id="circle2">
+        <div id = "chatDisplay" >
+            <div id= "conversation">
             </div>
-            
-            <img src="greycircle.png" id="circle">
-            
-            <input type="text" id="message" name="message">
-            <input type="submit" id="button" value="send" onclick="sendMessageToServer(document.getElementById('message').value);">
+        </div>
+
+        <div id = "bigPreview">
+            <video id = "bigPreviewVideo" autoplay ></video>
+            <img src="greycircle.png" id="circleBig">
+
+            <p id = "previewText"> </p>
+        </div>
+      
+        <div id = "bottomPart">
+                <video id ="liveVideo" autoplay></video>
+                <div id = "preview">
+                    <video id = "previewVideo" autoplay ></video>
+                     <img src="greycircle.png" id="circle2">
+                </div>
+                
+                <img src="greycircle.png" id="circle">
+                
+                <input type="text" id="message" name="message">
+                <input type="submit" id="button" value="send" onclick="sendMessageToServer(document.getElementById('message').value);">
+
+        </div>
 
     </div>
-
 
 </body>
 

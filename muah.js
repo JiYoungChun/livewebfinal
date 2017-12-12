@@ -25,7 +25,21 @@ var previewVideoArray = [];
 var previewTextArray = [];
 var previewIndex = 0;
 
+var FrontLiveVideo;
+var currentScreen = null;
+var screen1, screen2;
+
+function changeScreen(){
+    screen1.style.display = "none";
+    screen2.style.display= "block";
+}
+
 var initWebRTC = function() {
+
+    screen1=document.getElementById('screen1');
+    screen2=document.getElementById('screen2');
+
+
     // These help with cross-browser functionality
     window.URL = window.URL || window.webkitURL || window.mozURL || window.msURL;
     navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
@@ -40,6 +54,7 @@ var initWebRTC = function() {
         document.body.scrollTop = 0;
     }
     // The video element on the page to display the webcam
+    FrontLiveVideo = document.getElementById('frontLiveVideo');
     liveVideo = document.getElementById('liveVideo');
     conversation = document.getElementById('conversation');
     previewVid = document.getElementById('previewVideo');
@@ -100,6 +115,18 @@ var initWebRTC = function() {
         }
     });
 
+    //press enter to send message. cannot send if input field is empty
+    $('#yourName').bind("enterKey",function(e){
+           changeScreen();
+    });
+
+    $('#yourName').keyup(function(e){
+        if(e.keyCode == 13 && document.getElementById('yourName').value != "")
+        {
+            $(this).trigger("enterKey");
+        }
+    });
+
     // setting up the media recorder
     if (navigator.getUserMedia) {
         navigator.getUserMedia({
@@ -111,6 +138,8 @@ var initWebRTC = function() {
             //get live stream and display for the bottom live video
             liveVideo.src = window.URL.createObjectURL(stream) || stream;
             liveVideo.play();
+            frontLiveVideo.src = window.URL.createObjectURL(stream) || stream;
+            frontLiveVideo.play();
             mediaRecorder = new MediaRecorder(stream);
             //when stopping mediarecorder while it's already recording
             //save the data as a blob and send it to server as a bufferarray
@@ -121,18 +150,21 @@ var initWebRTC = function() {
                 
                 //get message content from input field
                 var message = document.getElementById('message').value;
+                var identity = document.getElementById('yourName').value;
 
                 var localObj = {
                     video: blob,
                     content: message,
-                    isLocal: true
+                    isLocal: true,
+                    name: identity
                 }
                 makeMsgBox(localObj);
 
                 var objtosend = {
                     video: blob,
                     content: message,
-                    isLocal: false
+                    isLocal: false,
+                    name: identity
                 }
 
                 socket.emit ('message', objtosend);
@@ -172,6 +204,11 @@ function makeMsgBox(data) {
     var div = document.createElement("div");
     div.classList.add("messageContainer");
 
+    var idPara = document.createElement("p");
+    idPara.classList.add("idText");
+
+    var nameNode = document.createTextNode(data.name);
+    idPara.appendChild(nameNode);
 
     var profileDiv = document.createElement("div");
     profileDiv.classList.add("profileContainer");
@@ -213,11 +250,12 @@ function makeMsgBox(data) {
 
     profileCircle.src = "circle.png";
 
-    div.style.top = ypos + "%";
+    div.style.top = ypos + "px";
 
     profileDiv.appendChild(vid);
     profileDiv.appendChild(profileCircle);
     div.appendChild(profileDiv)
+    div.appendChild(idPara)
     div.appendChild(para);
    
     conversation.appendChild(div);
@@ -227,10 +265,12 @@ function makeMsgBox(data) {
     if(data.isLocal)
     {
         para.style.left =  "60%";
+        idPara.style.left = "60%";
     }
     else //everyone else, do on left side
     {
         para.style.right = "60%";
+        idPara.style.right = "60%";
     }
 
 
@@ -241,7 +281,10 @@ function makeMsgBox(data) {
     //TODO: need to scroll to bottom of message container everytime there's new message
     //TODO: pressing enter to send message
     //TODO: more styling to make it pretty
-    ypos += 17;
+    if (para.offsetHeight < 93)
+        ypos+= 93;
+    else
+        ypos += para.offsetHeight + 10;
     var scrollDiv = document.getElementById("chatDisplay");
     scrollDiv.scrollTop = scrollDiv.scrollHeight;
 }
@@ -263,7 +306,7 @@ socket.on('chunk', function(data){
     previewVid.src = previewVideoArray[previewIndex];
     bigPreviewVid.src = previewVideoArray[previewIndex];
     previewVid.play();  
-    previewVideoArray.play();
+    // previewVideo.play();
 });
 
 //on message deliver to server on button press
