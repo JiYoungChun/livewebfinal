@@ -24,13 +24,25 @@ var firstTime = true;
 var previewVideoArray = [];
 var previewTextArray = [];
 var previewIndex = 0;
+var previewIndexBig = 0;
 
 var FrontLiveVideo;
+var FrontPreviewVideo;
 var currentScreen = null;
-var screen1, screen2;
+var screen1, screen2, screen3;
 
 function changeScreen(){
     screen1.style.display = "none";
+    screen2.style.display= "block";
+}
+
+function changeScreen2(){
+    screen2.style.display = "none";
+    screen3.style.display= "block";
+}
+
+function changeScreen3(){
+    screen3.style.display = "none";
     screen2.style.display= "block";
 }
 
@@ -38,6 +50,7 @@ var initWebRTC = function() {
 
     screen1=document.getElementById('screen1');
     screen2=document.getElementById('screen2');
+    screen3=document.getElementById('screen3');
 
 
     // These help with cross-browser functionality
@@ -49,6 +62,19 @@ var initWebRTC = function() {
           e.preventDefault();
           }
     });
+
+    $(document).ready(function() {
+    $('#preview').click(function(e) {  
+          changeScreen2();
+        });
+    });
+
+    $(document).ready(function() {
+    $('#screen3').click(function(e) {  
+          changeScreen3();
+        });
+    });
+
      document.getElementById('message').onfocus = function () {
         window.scrollTo(0, 0);
         document.body.scrollTop = 0;
@@ -58,12 +84,12 @@ var initWebRTC = function() {
     liveVideo = document.getElementById('liveVideo');
     conversation = document.getElementById('conversation');
     previewVid = document.getElementById('previewVideo');
-    bigPreviewVid = document.getElementById('bigPreviewVideo');
+    FrontPreviewVideo = document.getElementById('frontPreviewVideo');
     previewText = document.getElementById('previewText');
 
-    bigPreviewVid.controls = false;
-    bigPreviewVid.muted = true;
-    bigPreviewVid.autoplay = true;
+    FrontPreviewVideo.controls = false;
+    FrontPreviewVideo.muted = true;
+    FrontPreviewVideo.autoplay = true;
 
     previewVid.controls = false;
     previewVid.muted = true;
@@ -81,15 +107,16 @@ var initWebRTC = function() {
         }
     }
 
-    bigPreviewVid.onended = function(){
-        bigPreviewVid.src= previewVideoArray[previewIndex];
-        bigPreviewVid.load();
-        bigPreviewVid.play();
+    FrontPreviewVideo.onended = function(){
+        console.log(previewIndexBig);
+        FrontPreviewVideo.src= previewVideoArray[previewIndexBig];
+        FrontPreviewVideo.load();
+        FrontPreviewVideo.play();
 
-        previewText.innerHTML = previewTextArray[previewIndex];
-        previewIndex++;
-        if(previewIndex>=previewVideoArray.length){
-            previewIndex=0;
+        previewText.innerHTML = previewTextArray[previewIndexBig];
+        previewIndexBig++;
+        if(previewIndexBig>=previewVideoArray.length){
+            previewIndexBig=0;
         }
     }
     
@@ -116,14 +143,14 @@ var initWebRTC = function() {
     });
 
     //press enter to send message. cannot send if input field is empty
-    $('#yourName').bind("enterKey",function(e){
+    $('#yourName').bind("enterAppKey",function(e){
            changeScreen();
     });
 
     $('#yourName').keyup(function(e){
         if(e.keyCode == 13 && document.getElementById('yourName').value != "")
         {
-            $(this).trigger("enterKey");
+            $(this).trigger("enterAppKey");
         }
     });
 
@@ -138,8 +165,8 @@ var initWebRTC = function() {
             //get live stream and display for the bottom live video
             liveVideo.src = window.URL.createObjectURL(stream) || stream;
             liveVideo.play();
-            frontLiveVideo.src = window.URL.createObjectURL(stream) || stream;
-            frontLiveVideo.play();
+            FrontLiveVideo.src = window.URL.createObjectURL(stream) || stream;
+            FrontLiveVideo.play();
             mediaRecorder = new MediaRecorder(stream);
             //when stopping mediarecorder while it's already recording
             //save the data as a blob and send it to server as a bufferarray
@@ -304,7 +331,8 @@ socket.on('chunk', function(data){
     var previewVideoURL = window.URL.createObjectURL(blob);
     previewVideoArray.push(previewVideoURL);
     previewVid.src = previewVideoArray[previewIndex];
-    bigPreviewVid.src = previewVideoArray[previewIndex];
+    FrontPreviewVideo.src =  previewVideoArray[previewIndexBig];
+    // bigPreviewVid.src = previewVideoArray[previewIndex];
     previewVid.play();  
     // previewVideo.play();
 });

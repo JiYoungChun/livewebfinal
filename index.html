@@ -16,7 +16,8 @@
         <div>
         <video id ="frontLiveVideo" autoplay></video>
         <img src="circle.png" id="frontCircle">
-        <input id="yourName"  placeholder= "your name" type="text"name="text">
+        <div id = title> MOTALK </div>
+        <input id="yourName"  placeholder= "your name" type="text" name="text">
         <input type="submit" id = "firstButton" value="Enter" onclick="changeScreen();">
       </div>
 
@@ -30,13 +31,6 @@
             <div id= "conversation">
             </div>
         </div>
-
-        <div id = "bigPreview">
-            <video id = "bigPreviewVideo" autoplay ></video>
-            <img src="greycircle.png" id="circleBig">
-
-            <p id = "previewText"> </p>
-        </div>
       
         <div id = "bottomPart">
                 <video id ="liveVideo" autoplay></video>
@@ -47,10 +41,20 @@
                 
                 <img src="greycircle.png" id="circle">
                 
-                <input type="text" id="message" name="message">
+                <input type="text" id="message" name="message" placeholder= "start to chat!">
                 <input type="submit" id="button" value="send" onclick="sendMessageToServer(document.getElementById('message').value);">
 
         </div>
+
+    </div>
+
+    <div id="screen3">
+        <div>
+        <video id ="frontPreviewVideo" autoplay></video>
+        <img src="circle.png" id="frontCircle">
+
+            <p id = "previewText"> </p>
+      </div>
 
     </div>
 
