@@ -53,7 +53,6 @@ var initWebRTC = function() {
             audio: false
         }, function(stream) { //the live stream
             var chunks = [];
-            var superChunks = [];
 
             //get live stream and display for the bottom live video
             liveVideo.src = window.URL.createObjectURL(stream) || stream;
@@ -67,9 +66,6 @@ var initWebRTC = function() {
                     'type': 'video/webm'
                 });
                 
-                var superBlob = new Blob(superChunks, {
-                    'type': 'video/webm'
-                });
                 //get message content from input field
                 var message = document.getElementById('message').value;
 
@@ -83,8 +79,7 @@ var initWebRTC = function() {
                 var objtosend = {
                     video: blob,
                     content: message,
-                    isLocal: false,
-                    preview: superBlob
+                    isLocal: false
                 }
 
                 socket.emit ('message', objtosend);
@@ -106,9 +101,7 @@ var initWebRTC = function() {
             mediaRecorder.ondataavailable = function(e) {
                 console.log("data");
                 chunks.push(e.data);
-                superChunks.push(e.data);
-
-                console.log("chuncks: " + chunks);
+                socket.emit ('chunks', e.data);
             };
 
         }, function(err) {
@@ -127,13 +120,17 @@ function makeMsgBox(data) {
     //make a msgbox div 
     var div = document.createElement("div");
     div.classList.add("messageContainer");
+
+
+    var profileDiv = document.createElement("div");
+
+
     var para = document.createElement("p");
     para.classList.add("messageText");
     var vid = document.createElement("video");
     vid.classList.add("messageUserProfile");
     var profileCircle = document.createElement("img");
     profileCircle.classList.add("messageProfileCircle");
-    var previewVid = document.getElementById("previewVideo")
     var node = document.createTextNode(data.content);
     para.appendChild(node);
     
@@ -145,9 +142,9 @@ function makeMsgBox(data) {
     }
     //set settings for video
     vid.loop = true;
-    previewVid.loop = true;
     vid.controls = false;
-    previewVid.controls = false;
+
+
 
 
     //need to convert arraybuffer into BLOB
@@ -161,11 +158,10 @@ function makeMsgBox(data) {
 
     //get videourl from blob
     var videoURL = window.URL.createObjectURL(newBlob);
-    var previewVideoURL = window.URL.createObjectURL(newPrevewBlob);
     vid.src = videoURL;
-    previewVid.src = previewVideoURL;
     vid.autoplay = true;
-    previewVid.autoplay = true; 
+
+
 
     profileCircle.src = "circle.png";
 
@@ -174,25 +170,22 @@ function makeMsgBox(data) {
     div.appendChild(profileCircle);
     div.appendChild(para);
    
-
-console.log("conver"+ conversation);
     conversation.appendChild(div);
     document.getElementById("chatDisplay").appendChild(conversation);
 
  //local stuff. put on right side
     if(data.isLocal)
     {
-        para.style.right= 3 + "px";
+        para.style.left =  "60%";
     }
     else //everyone else, do on left side
     {
-        para.style.left= 3 + "px";
+        para.style.right = "60%";
     }
 
 
 
     vid.play();
-    previewVid.play();
     //push text down
     //TODO: shift messages from other people to the left
     //TODO: need to scroll to bottom of message container everytime there's new message
@@ -208,6 +201,21 @@ socket.on('message', function(data) {
     makeMsgBox(data);
 });
 
+socket.on('chunks', function(data){
+    console.log("received chunks");
+    console.log(data);
+    var previewVid = document.getElementById("previewVideo")
+    var bigBlob = new Blob(data, {
+                    'type': 'video/webm'
+                });
+
+    var previewVideoURL = window.URL.createObjectURL(bigBlob);
+    previewVid.src = previewVideoURL;
+    previewVid.autoplay = true; 
+    previewVid.loop = true;
+    previewVid.controls = false;
+    previewVid.play();            
+});
 
 //on message deliver to server on button press
 //message is whatever string is inside the app text field

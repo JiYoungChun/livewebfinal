@@ -1,23 +1,5 @@
 
-  #liveVideo {
-      /*visibility: hidden;*/
-      position: absolute;
-      margin: auto;
-      /*  top: 75%;*/
-      width: 90px;
-      height: 90px;
-      left: 1%;
-      bottom: 0.7%;
-      
-  }
-  #circle {
-      position: absolute;
-      margin: auto;
-      width: 93px;
-      height: 93px;
-      left: 1%;
-      bottom: 0.7%;
-  }
+
 
   html,
   body {
@@ -47,9 +29,9 @@
       height: 79%;
       position: absolute;
       margin: auto;
+      word-wrap: break-word;
 
  }
-
 
 
   #conversation {
@@ -65,7 +47,6 @@
       margin: auto;
   }
 
-
   .messageContainer{
     width : 100%;
     height : 15%;
@@ -75,33 +56,34 @@
   }
 
   .messageText {
-    font-size: 15px;
-  /*  right:2%;
-*/    width: 25%; 
-    top: 40%;
+    overflow: auto;
+    max-height: 95%;
+    font-size: 13px;
+    width: auto;
+    top: 50%;
+    transform: translateY(-50%);
     position: absolute;
-    padding: 4px;
     border-radius: 5px;
-    padding: 4px 20px;
+    max-width: 28%;
+    padding: 5px 9px;
     margin: auto;
-    background: #e7e7e7; 
-
-
+    background: #e7e7e7;
   }
 
   .messageUserProfile {
-    left: 39%;
     width: 88.5px;
-    height: 88.5px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
     position: absolute;
-    margin: auto;
   }
 
   .messageProfileCircle {
-    left: 38.7%;
-    top:-1.5%;
-    width: 93px; 
-    height: 93px; 
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 93px;
+    height: 93px;
     position: absolute;
     margin: auto;
 
@@ -125,28 +107,31 @@
    background-color:#e7e7e7;
   }
 
-  #message {
-      /*font-family: *//*'Amatic SC', cursive;*/
-      font-family: Helvetica;
-      font-weight: lighter;
-      font-size: 13px;
-      border-style: none;
-      border-radius: 5px;
-      height: 7%;
-      width: 65%;
-      right: 10%;
-      bottom: 4.5%;
-      background-color: white;
-      position: absolute;
-      margin: auto;
+  #message {position: absolute;
+    margin: auto;
+    width: 110px;
+    height: 110px;
+    top: 50%;
+    text-indent: 5%;
+    font-family: Helvetica;
+    font-weight: lighter;
+    font-size: 13px;
+    border-style: none;
+    border-radius: 5px;
+    height: 30%;
+    width: 50%;
+    right: 50%;
+    top: 50%;
+    transform: translate(50%, -50%);
+    background-color: white;
+    position: absolute;
+    margin: auto;
   }
   #button {
       visibility: hidden;
       font-family: Helvetica;
       font-weight: lighter;
       font-size: 13px;
-      /*top: 80.2%;*/
-      
       height: 7.5%;
       right: 4.5%;
       bottom: 4.25%;
@@ -163,14 +148,28 @@
   }
 
     #previewVideo { 
-
-      height: 7.5%;
-      right: 1%;
-      bottom: 4.25%;
       position: absolute;
       margin: auto;
-      z-index: 300000;
-
-
-
+      width: 110px;
+      height: 110px;
+      top: 50%;
+      right: 1%;
+      transform: translateY(-50%);
     }
+
+  #liveVideo {
+    position: absolute;
+    margin: auto;
+    width: 110px;
+    height: 110px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  #circle {
+    top: 50%;
+    transform: translateY(-50%);
+    position: absolute;
+    margin: auto;
+    width: 110px;
+    height: 110px;
+  }

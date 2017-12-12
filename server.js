@@ -41,6 +41,8 @@ httpServer.listen(8001);
 // WebSockets work with the HTTP server
 var io = require('socket.io').listen(httpServer);
 
+var allChunks = [];
+
 // Register a callback function to run when we have an individual connection
 // This is run for each individual user that connects
 io.sockets.on('connection', 
@@ -59,6 +61,12 @@ io.sockets.on('connection',
 			// socket.broadcast.emit('chatmessage', data);
 			// socket.emit('chatmessage',data); //send to me
 			socket.broadcast.emit('message', data);// send to everyone
+		});
+
+		socket.on('chunks', function(data) {
+			console.log("received chunks");
+			allChunks.push(data);
+			io.sockets.emit('chunks', allChunks);
 		});
 		
 		socket.on('disconnect', function() {
